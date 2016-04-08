@@ -7,7 +7,10 @@
 //
 
 #import "AppDelegate.h"
-
+#import "MainViewController.h"
+#import "FirstViewController.h"
+#import "HomeViewController.h"
+#import "ThirdViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +20,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSArray *array=@[@"FirstViewController",@"HomeViewController",@"ThirdViewController"];
+    NSArray *titleArray=@[@"智能导诊",@"百度医生",@"个人中心"];
+    NSMutableArray *controllers=[[NSMutableArray alloc]init];
+    for (int i=0; i<array.count; i++) {
+        Class class=NSClassFromString(array[i]);
+        UIViewController *vc=[[class alloc]init];
+        UINavigationController *navi=[[UINavigationController alloc]initWithRootViewController:vc];
+        navi.title=titleArray[i];
+        [controllers addObject:navi];
+    }
+    
+    self.window=[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    MainViewController *mainVC=[[MainViewController alloc]init];
+    mainVC.viewControllers=controllers;
+    self.window.rootViewController=mainVC;
+    mainVC.selectedIndex=1;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
